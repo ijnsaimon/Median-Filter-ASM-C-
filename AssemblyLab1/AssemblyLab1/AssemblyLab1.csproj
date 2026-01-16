@@ -36,4 +36,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="xcopy /y &quot;$(SolutionDir)x64\Release\JA1.dll&quot; &quot;$(TargetDir)&quot;&#xD;&#xA;xcopy /y &quot;$(SolutionDir)x64\Release\MedianFilterC++.dll&quot; &quot;$(TargetDir)&quot;&#xD;&#xA;" />
+  </Target>
 </Project>

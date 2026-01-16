@@ -16,10 +16,10 @@ namespace AssemblyLab1
 {
     class Program
     {
-        [DllImport(@"C:\Users\Saimon\Documents\GitHub\Stuff\AssemblyLab1\x64\Debug\JA1.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("JA1.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void MedianFilter(IntPtr data, IntPtr outData, int width, int height, int stride, int startY, int endY);
 
-        [DllImport(@"C:\Users\Saimon\Documents\GitHub\Stuff\AssemblyLab1\x64\Debug\MedianFilterC++.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("MedianFilterC++.dll", CallingConvention = CallingConvention.Cdecl)]
 
         public static extern void MedianFilterCpp(IntPtr data, IntPtr outData, int width, int height, int stride, int startY, int endY);
 
