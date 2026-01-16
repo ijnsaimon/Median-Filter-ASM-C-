@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "GZTNehF6lZc=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Saimon\\Documents\\GitHub\\Stuff\\AssemblyLab1\\AssemblyLab1\\AssemblyLab1.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Saimon\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
+    "C:\\Users\\Saimon\\.nuget\\packages\\microsoft.win32.systemevents\\9.0.10\\microsoft.win32.systemevents.9.0.10.nupkg.sha512",
+    "C:\\Users\\Saimon\\.nuget\\packages\\system.data.datasetextensions\\4.5.0\\system.data.datasetextensions.4.5.0.nupkg.sha512",
+    "C:\\Users\\Saimon\\.nuget\\packages\\system.drawing.common\\9.0.10\\system.drawing.common.9.0.10.nupkg.sha512"
+  ],
+  "logs": []
+}

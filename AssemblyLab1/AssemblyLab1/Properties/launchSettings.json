@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "AssemblyLab1": {
+      "commandName": "Project",
+      "commandLineArgs": "\"C:\\Users\\Saimon\\Documents\\GitHub\\Stuff\\AssemblyLab1\\cpu.png\"",
+      "nativeDebugging": true,
+      "sqlDebugging": false,
+      "jsWebView2Debugging": false
+    }
+  }
+}

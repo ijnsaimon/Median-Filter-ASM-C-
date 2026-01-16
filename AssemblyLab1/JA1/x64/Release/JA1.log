@@ -1,0 +1,6 @@
+﻿  Assembling JA.asm...
+     Trwa tworzenie biblioteki C:\Users\Saimon\Documents\GitHub\Stuff\AssemblyLab1\x64\Release\JA1.lib i obiektu C:\Users\Saimon\Documents\GitHub\Stuff\AssemblyLab1\x64\Release\JA1.exp
+JA1.exp : warning LNK4070: /OUT: dyrektywa JAAsm.dll w pliku .EXP jest inna niż nazwa pliku wyjściowego „C:\Users\Saimon\Documents\GitHub\Stuff\AssemblyLab1\x64\Release\JA1.dll”; dyrektywa została zignorowana
+  LINK : określono opcję /LTCG, lecz generowanie kodu nie było wymagane; usuń opcję /LTCG z wiersza polecenia konsolidatora w celu podwyższenia wydajności konsolidatora
+JA1.exp : warning LNK4070: /OUT: dyrektywa JAAsm.dll w pliku .EXP jest inna niż nazwa pliku wyjściowego „C:\Users\Saimon\Documents\GitHub\Stuff\AssemblyLab1\x64\Release\JA1.dll”; dyrektywa została zignorowana
+  JA1.vcxproj -> C:\Users\Saimon\Documents\GitHub\Stuff\AssemblyLab1\x64\Release\JA1.dll
