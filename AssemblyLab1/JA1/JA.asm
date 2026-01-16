@@ -25,8 +25,6 @@ MedianFilter PROC
     push rbp
     ; Setting register base pointer on top of the stack
     mov rbp, rsp
-    ;Allocating space on the stack for 3 arrays of 9 bytes each (27 bytes total but aligned to 32 bytes for optimization)
-    sub rsp, 32
     ; Offset - stride was rsp + 40 but after 8 pushes (8*8 bytes = 64 bytes) it becomes rsp + 40 + 64, so rsp + 104
     mov r10d, dword ptr [rbp+104] ; stride
     mov r11d, dword ptr [rbp+112] ; startY
@@ -37,35 +35,72 @@ LoopY:
     cmp r13d, r12d ; if y >= endY, jump to EndLoopY    
     jge EndLoopY      
     ; r14 - current x (loop counter)
+    ; With SSE, there are 16 pixels processed at once, so the loop needs to end at width - 16 in order to be aligned
     mov r14d, 1 ; x = 1
 LoopX:
     mov eax, r8d ; eax - width
-    dec eax ; width--
+    sub eax, 17 ; width - 1 - 16 (becacuse of processing 16 pixels at once)
     cmp r14d, eax ; if x >= width - 1, jump to next Y line
     jge NextY
-    ; Loading the 3x3 neighborhood pixels
-    xor rsi, rsi; rsi - index for arrays chanR/G/B, k = 0
-    ; Loop dy (-1, 1)
-    mov r15, -1 ; dy = -1
-LoopDY:
-    cmp r15, 1 ; if dy > 1, neighbors are found
-    jg NeighborsDone
-    
-    ; Loop dx (-1, 1)
-    mov rbx, -1 ; dx = -1
-LoopDX:
-    cmp rbx, 1 ; if dx > 1, jump to next dy line
-    jg NextDY
-    ; Calculate pixel address: pixel = src + (y + dy) * stride + (x + dx) * 3
+    ; Loading 9 vectors of 16 bytes each
+    ; Address of the center pixel (x,y)
     mov rax, r13 ; y
-    add rax, r15 ; y + dy
-    imul rax, r10; (y + dy) * stride
-
+    imul rax, r10 ; y * stride
     mov rdi, r14 ; x
-    add rdi, rbx ; x + dx
-    imul rdi, 3 ; (x + dx) * 3
+    imul rdi, 3 ; x * 3
     add rax, rdi ; y offset + x offset
-    add rax, rcx ; src + offset, rax - pixel address
+    add rax, rcx ; src + offset, rax - center pixel address
+    ; xmm0 - xmm8 will hold 3x3 neighborhood pixels for 16 pixels at once
+    ; Matrix layout:
+    ; xmm0 xmm1 xmm2
+    ; xmm3 xmm4 xmm5
+    ; xmm6 xmm7 xmm8
+    ; Upper row (y-1)
+    mov rbx, rax
+    add rbx, r10 ; subtracting stride to move to (y-1)
+    movdqu xmm0, [rbx - 3] ; (x-1, y-1)
+    movdqu xmm1, [rbx] ; (x, y-1)
+    movdqu xmm2, [rbx + 3] ; (x+1, y-1)
+    ; Middle row (y)
+    movdqu xmm3, [rax - 3] ; (x-1, y)
+    movdqu xmm4, [rax] ; (x, y)
+    movdqu xmm5, [rax + 3] ; (x+1, y)
+    ; Lower row (y+1)
+    mov rbx, rax
+    add rbx, r10 ; adding stride to move to (y+1)
+    movdqu xmm6, [rbx - 3] ; (x-1, y+1)
+    movdqu xmm7, [rbx] ; (x, y+1)
+    movdqu xmm8, [rbx + 3] ; (x+1, y+1)
+    ; Sorting network to find median for each color channel
+    ; Median should be in xmm4 after sorting
+    ; xmm15 is used as temporary storage
+
+    ; Sorting columns
+    SORT_VEC xmm0, xmm3
+    SORT_VEC xmm3, xmm6
+    SORT_VEC xmm0, xmm3
+
+    SORT_VEC xmm1, xmm4
+    SORT_VEC xmm4, xmm7
+    SORT_VEC xmm1, xmm4
+
+    SORT_VEC xmm2, xmm5
+    SORT_VEC xmm5, xmm8
+    SORT_VEC xmm2, xmm5
+
+    ; Results after sorting columns:
+    ; Min: xmm0, xmm1, xmm2
+    ; Med: xmm3, xmm4, xmm5
+    ; Max: xmm6, xmm7, xmm8
+    ; Now sorting rows to get median of medians in xmm4
+
+    SORT_VEC xmm0, xmm1
+    SORT_VEC xmm3, xmm4
+    SORT_VEC xmm6, xmm7
+
+    SORT_VEC xmm1, xmm2
+    SORT_VEC xmm4, xmm5
+    SORT_VEC xmm7, xmm8
 
     ; Loading color channels [B, G, R]
     ; Blue
@@ -162,6 +197,13 @@ NoSwap:
     pop rdx
     ret
 BubbleSort9 ENDP
+; Macro for sorting two vector registers
+; After execution, the lower register contains the smaller values
+SORT_VEC MACRO REG1, REG2
+    movdqa xmm15, REG1 ; copy REG1 to xmm15
+    pminub REG1, REG2  ; REG1 = min(REG1, REG2)
+    pmaxub REG2, xmm15 ; REG2 = max(old REG1, REG2)
+ENDM
 
 _TEXT ENDS
 END
