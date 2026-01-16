@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Saimon\\Documents\\GitHub\\Stuff\\AssemblyLab1\\MedianFilterCsDLL\\MedianFilterCsDLL.csproj",
+      "projectUniqueName": "C:\\Users\\Saimon\\Documents\\GitHub\\Median-Filter-ASM-C-\\AssemblyLab1\\MedianFilterCsDLL\\MedianFilterCsDLL.csproj",
       "projectName": "MedianFilterCsDLL",
-      "projectPath": "C:\\Users\\Saimon\\Documents\\GitHub\\Stuff\\AssemblyLab1\\MedianFilterCsDLL\\MedianFilterCsDLL.csproj",
+      "projectPath": "C:\\Users\\Saimon\\Documents\\GitHub\\Median-Filter-ASM-C-\\AssemblyLab1\\MedianFilterCsDLL\\MedianFilterCsDLL.csproj",
       "packagesPath": "C:\\Users\\Saimon\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Saimon\\Documents\\GitHub\\Stuff\\AssemblyLab1\\MedianFilterCsDLL\\obj\\",
+      "outputPath": "C:\\Users\\Saimon\\Documents\\GitHub\\Median-Filter-ASM-C-\\AssemblyLab1\\MedianFilterCsDLL\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
