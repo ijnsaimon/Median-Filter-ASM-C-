@@ -21,3 +21,15 @@ C:\Users\Saimon\Documents\GitHub\Stuff\AssemblyLab1\MedianFilterCsDLL\obj\Releas
 C:\Users\Saimon\Documents\GitHub\Stuff\AssemblyLab1\MedianFilterCsDLL\obj\Release\net9.0\refint\MedianFilterCsDLL.dll
 C:\Users\Saimon\Documents\GitHub\Stuff\AssemblyLab1\MedianFilterCsDLL\obj\Release\net9.0\MedianFilterCsDLL.pdb
 C:\Users\Saimon\Documents\GitHub\Stuff\AssemblyLab1\MedianFilterCsDLL\obj\Release\net9.0\ref\MedianFilterCsDLL.dll
+C:\Users\Saimon\Documents\GitHub\Median-Filter-ASM-C-\AssemblyLab1\MedianFilterCsDLL\bin\Release\net9.0\MedianFilterCsDLL.deps.json
+C:\Users\Saimon\Documents\GitHub\Median-Filter-ASM-C-\AssemblyLab1\MedianFilterCsDLL\bin\Release\net9.0\MedianFilterCsDLL.dll
+C:\Users\Saimon\Documents\GitHub\Median-Filter-ASM-C-\AssemblyLab1\MedianFilterCsDLL\bin\Release\net9.0\MedianFilterCsDLL.pdb
+C:\Users\Saimon\Documents\GitHub\Median-Filter-ASM-C-\AssemblyLab1\MedianFilterCsDLL\obj\Release\net9.0\MedianFilterCsDLL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Saimon\Documents\GitHub\Median-Filter-ASM-C-\AssemblyLab1\MedianFilterCsDLL\obj\Release\net9.0\MedianFilterCsDLL.AssemblyInfoInputs.cache
+C:\Users\Saimon\Documents\GitHub\Median-Filter-ASM-C-\AssemblyLab1\MedianFilterCsDLL\obj\Release\net9.0\MedianFilterCsDLL.AssemblyInfo.cs
+C:\Users\Saimon\Documents\GitHub\Median-Filter-ASM-C-\AssemblyLab1\MedianFilterCsDLL\obj\Release\net9.0\MedianFilterCsDLL.csproj.CoreCompileInputs.cache
+C:\Users\Saimon\Documents\GitHub\Median-Filter-ASM-C-\AssemblyLab1\MedianFilterCsDLL\obj\Release\net9.0\MedianFilterCsDLL.sourcelink.json
+C:\Users\Saimon\Documents\GitHub\Median-Filter-ASM-C-\AssemblyLab1\MedianFilterCsDLL\obj\Release\net9.0\MedianFilterCsDLL.dll
+C:\Users\Saimon\Documents\GitHub\Median-Filter-ASM-C-\AssemblyLab1\MedianFilterCsDLL\obj\Release\net9.0\refint\MedianFilterCsDLL.dll
+C:\Users\Saimon\Documents\GitHub\Median-Filter-ASM-C-\AssemblyLab1\MedianFilterCsDLL\obj\Release\net9.0\MedianFilterCsDLL.pdb
+C:\Users\Saimon\Documents\GitHub\Median-Filter-ASM-C-\AssemblyLab1\MedianFilterCsDLL\obj\Release\net9.0\ref\MedianFilterCsDLL.dll

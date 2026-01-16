@@ -11,27 +11,23 @@
 EXPORTED_METHOD
 
 void MedianFilterCpp(uint8_t* src, uint8_t* out, int width, int height, int stride, int startY, int endY){
-    // Bufory na kanały kolorów (odpowiednik stackalloc)
+	// Channels for 3x3 neighborhood
     uint8_t chanR[9];
     uint8_t chanG[9];
     uint8_t chanB[9];
-
-    // Zabezpieczenie pętli Y, aby nie wyjść poza zakres (margines 1 piksela)
-    int validStartY = max(1, startY);
-    int validEndY = min(height - 1, endY);
-
-    for (int y = validStartY; y < validEndY; y++) {
-        // Pętla X: od 1 do width - 1 (w oryginale było < width, co mogło powodować błąd przy x+1)
+	// Loop Y: from startY to endY
+    for (int y = startY; y < endY; y++) {
+		// Loop X: from 1 to width-1 (to avoid borders)
         for (int x = 1; x < width - 1; x++) {
-            int k = 0;
+			int k = 0; // Index for channel arrays
 
-            // Pobieranie otoczenia 3x3
+			// Loop DY from 1 to -1 (y = 3 for 3x3 neighborhood)
             for (int dy = -1; dy <= 1; dy++) {
+				// Loop DX from 1 to -1 (x = 3 for 3x3 neighborhood)
                 for (int dx = -1; dx <= 1; dx++) {
-                    // Obliczanie wskaźnika: przesunięcie wiersza + przesunięcie piksela
-                    // stride to szerokość wiersza w bajtach (wliczając padding)
+					// Calculate pixel position
                     uint8_t* px = src + (y + dy) * stride + (x + dx) * 3;
-
+					// Store color channels in separate arrays
                     chanB[k] = px[0];
                     chanG[k] = px[1];
                     chanR[k] = px[2];
@@ -39,19 +35,12 @@ void MedianFilterCpp(uint8_t* src, uint8_t* out, int width, int height, int stri
                 }
             }
 
-            // Znajdowanie mediany (elementu środkowego po posortowaniu).
-            // std::nth_element jest szybsze niż pełne sortowanie, bo ustawia
-            // tylko element na pozycji 4 na właściwym miejscu.
+            // Median search (middle element after sorting the arrays)
+			// std::nth_element is faster than full sort, as we need only the fourth element of the array in the correct position
             std::nth_element(chanR, chanR + 4, chanR + 9);
             std::nth_element(chanG, chanG + 4, chanG + 9);
             std::nth_element(chanB, chanB + 4, chanB + 9);
-
-            // Jeśli wolisz pełne sortowanie (jak w oryginale), użyj:
-            // std::sort(chanR, chanR + 9);
-            // std::sort(chanG, chanG + 9);
-            // std::sort(chanB, chanB + 9);
-
-            // Zapis do bufora wyjściowego
+            // Saving to output buffer
             uint8_t* output = out + y * stride + x * 3;
             output[0] = chanB[4];
             output[1] = chanG[4];
@@ -59,6 +48,7 @@ void MedianFilterCpp(uint8_t* src, uint8_t* out, int width, int height, int stri
         }
     }
 }
+// Whatever this is needed for DLLs.
 BOOL APIENTRY DllMain( HMODULE hModule,
                        DWORD  ul_reason_for_call,
                        LPVOID lpReserved
