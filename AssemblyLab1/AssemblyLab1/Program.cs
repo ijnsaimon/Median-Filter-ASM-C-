@@ -5,12 +5,13 @@ using System.Drawing.Imaging;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Runtime;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Data.SqlTypes;
 using MedianFilterCsDLL;
+using System.Numerics;
 
 namespace AssemblyLab1
 {
@@ -27,61 +28,61 @@ namespace AssemblyLab1
         {
             string bmpPath = args[0];
             Console.WriteLine($"Bitmap path={bmpPath}");
-            using (var bmp = new Bitmap(bmpPath))
+            long totalTime = 0;
+            int iterations = 10;
+            string outputPath = args[1];
+            Console.WriteLine($"Output path={outputPath}");
+            int threadsNum = Convert.ToInt32(args[2]);
+            Console.WriteLine($"Threads number={threadsNum}");
+            String num = Console.ReadLine();
+            for (int k = 0; k < iterations; k++) {
             {
-                Rectangle r = new Rectangle(0, 0, bmp.Width, bmp.Height);
-                String num = Console.ReadLine();
-                BitmapData bmpData = bmp.LockBits(r, ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb);
-                IntPtr bmpPtr = bmpData.Scan0;
-                int stride = bmpData.Stride;
-                int width = bmpData.Width;
-                int height = bmpData.Height;
-                int threadsNum = Math.Min(Environment.ProcessorCount, height);
-                int chunkHeight = height / threadsNum;
-                int extra = height % threadsNum;
-                var output = new Bitmap(width, height);
-                var outp = output.LockBits(r, ImageLockMode.WriteOnly, PixelFormat.Format24bppRgb);
-                var outPtr = outp.Scan0;
-                if (num == "0")
-                {
-                    Stopwatch sw = Stopwatch.StartNew();
-                    Parallel.For(0, threadsNum, i =>
+                    using (var bmp = new Bitmap(bmpPath))
                     {
-                        int startY = i * chunkHeight + Math.Min(i, extra);
-                        int endY = startY + chunkHeight + (i < extra ? 1 : 0);
-                        startY = Math.Max(1, startY);
-                        endY = Math.Min(height - 1, endY);
-                 //       MedianFilterCs.medianFilter(bmpPtr, outPtr, width, height, stride, startY, endY);
-                        MedianFilterCpp(bmpPtr, outPtr, width, height, stride, startY, endY);
-                        Console.WriteLine("Thread finished cpp");
-                    });
-                    sw.Stop();
-                    Console.WriteLine($"Time: {sw.ElapsedMilliseconds} ms");
-                    bmp.UnlockBits(bmpData);
-                    output.UnlockBits(outp);
-                    output.Save("result.bmp");
-                }
-                else
-                {
+                        Rectangle r = new Rectangle(0, 0, bmp.Width, bmp.Height);
+                        BitmapData bmpData = bmp.LockBits(r, ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb);
+                        IntPtr bmpPtr = bmpData.Scan0;
+                        int stride = bmpData.Stride;
+                        int width = bmpData.Width;
+                        int height = bmpData.Height;
+                        int chunkHeight = height / threadsNum;
+                        int extra = height % threadsNum;
+                        var output = new Bitmap(width, height);
+                        var outp = output.LockBits(r, ImageLockMode.WriteOnly, PixelFormat.Format24bppRgb);
+                        var outPtr = outp.Scan0;
+                        {
+                            Stopwatch sw = Stopwatch.StartNew();
+                            Parallel.For(0, threadsNum, i =>
+                            {
+                                int startY = i * chunkHeight + Math.Min(i, extra);
+                                int endY = startY + chunkHeight + (i < extra ? 1 : 0);
+                                startY = Math.Max(1, startY);
+                                endY = Math.Min(height - 1, endY);
+                                if (num == "0")
+                                {
+                                    MedianFilterCpp(bmpPtr, outPtr, width, height, stride, startY, endY);
+                                }
+                                else
+                                {
+                                    MedianFilter(bmpPtr, outPtr, width, height, stride, startY, endY);
+                                }
+                            });
+                            sw.Stop();
+                            long runTime = sw.ElapsedMilliseconds;
+                            totalTime += runTime;
+                            Console.WriteLine($"Iteration {k + 1}: {runTime} ms");
+                        }
+                        bmp.UnlockBits(bmpData);
+                        output.UnlockBits(outp);
+                        output.Save(outputPath);
+                    }
 
-                    Stopwatch sw = Stopwatch.StartNew();
-                    Parallel.For(0, threadsNum, i =>
-                    {
-                        int startY = i * chunkHeight + Math.Min(i, extra);
-                        int endY = startY + chunkHeight + (i < extra ? 1 : 0);
-                        startY = Math.Max(1, startY);
-                        endY = Math.Min(height - 1, endY);
-                        MedianFilter(bmpPtr, outPtr, width, height, stride, startY, endY);
-                        Console.WriteLine("Thread finished asm");
-                    });
-                    sw.Stop();
-                    Console.WriteLine($"Time: {sw.ElapsedMilliseconds} ms");
-                    bmp.UnlockBits(bmpData);
-                    output.UnlockBits(outp);
-                    output.Save("result.bmp");
                 }
             }
             Console.WriteLine("End");
+            double averageTime = (double)totalTime / iterations;
+            Console.WriteLine("--------------------------------------------------");
+            Console.WriteLine($"Avg time of ({iterations} iterations): {averageTime:F2} ms");
         }
     }
 }
