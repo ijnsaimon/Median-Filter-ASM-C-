@@ -2,7 +2,7 @@
   "profiles": {
     "AssemblyLab1": {
       "commandName": "Project",
-      "commandLineArgs": "\"C:\\Users\\Saimon\\Documents\\GitHub\\Stuff\\AssemblyLab1\\szweda.bmp\"",
+      "commandLineArgs": "\"C:\\Users\\Saimon\\Documents\\GitHub\\Median-Filter-ASM-C-\\AssemblyLab1\\false_son_noise.png\" C:\\Users\\Saimon\\Desktop\\result.bmp 12",
       "nativeDebugging": true,
       "sqlDebugging": false,
       "jsWebView2Debugging": false
