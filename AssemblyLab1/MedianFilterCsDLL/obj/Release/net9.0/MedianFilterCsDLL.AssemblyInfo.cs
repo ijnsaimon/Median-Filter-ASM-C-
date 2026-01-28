@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MedianFilterCsDLL")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+00dedff3aef861cbe9a4e2e19e3fb0d71765f4e6")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5b0becd6cf55420731cf7ab9dee3a5e713431d9b")]
 [assembly: System.Reflection.AssemblyProductAttribute("MedianFilterCsDLL")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MedianFilterCsDLL")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
